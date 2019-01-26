@@ -1,0 +1,36 @@
+<!--DOCTYPE html--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="submitProcess(event)">
+        <input type="text" name="echo" id="echo" /><br />
+        <input type="submit" name="submit" id="submit" /><br />
+    </form>
+    <script>
+        function submitProcess(e){
+            e.preventDefault();
+            let value = document.getElementById("echo").value;
+        fetch('http://localhost:5251/' , {
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"value":value})
+        }).then((res) => (res.text())).then((res) => {
+
+            let newChild = document.createElement("div");
+            newChild.textContent = res.substring(0 , res.length - 2);
+            
+            document.body.appendChild(newChild);
+            console.log(res);
+        });
+        }
+    </script>
+</body>
+</html>
